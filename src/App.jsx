@@ -1,12 +1,42 @@
+import ProductCard from './components/ProductCard/ProductCard'
+
+const products = [
+  {
+    id: 1,
+    name: 'Ваза керамічна',
+    price: 450,
+    category: 'Кераміка',
+    image: '/src/assets/product-placeholder.svg',
+  },
+  {
+    id: 2,
+    name: "Дерев'яна миска",
+    price: 320,
+    category: "Дерев'яні вироби",
+  },
+  {
+    id: 3,
+    name: 'Кулон срібний',
+    price: 780,
+    category: 'Прикраси',
+    image: '/src/assets/product-placeholder.svg',
+    inStock: false,
+  },
+]
+
 function App() {
   return (
-    <main>
-      <h1>CraftMarket</h1>
-      <p>
-        Вітрина товарів ручної роботи. Каталог буде додано в наступних роботах.
-      </p>
+    <main
+      className="catalog-preview"
+      style={{ display: 'flex', gap: '16px', padding: '20px' }}
+    >
+      {products.map((product) => (
+        <ProductCard key={product.id} {...product} />
+      ))}
     </main>
-  );
+  )
 }
 
-export default App;
+export default App
+
+
