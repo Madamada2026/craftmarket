@@ -1,4 +1,5 @@
 import ProductCard from './components/ProductCard/ProductCard'
+import vaseImg from './assets/stock-photo-ceramic-vase.jpg'
 
 const products = [
   {
@@ -6,7 +7,7 @@ const products = [
     name: 'Ваза керамічна',
     price: 450,
     category: 'Кераміка',
-    image: '/src/assets/product-placeholder.svg',
+    image: vaseImg,
   },
   {
     id: 2,
@@ -19,7 +20,6 @@ const products = [
     name: 'Кулон срібний',
     price: 780,
     category: 'Прикраси',
-    image: '/src/assets/product-placeholder.svg',
     inStock: false,
   },
 ]
@@ -38,5 +38,6 @@ function App() {
 }
 
 export default App
+
 
 
