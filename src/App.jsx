@@ -8,6 +8,7 @@ const products = [
     price: 450,
     category: 'Кераміка',
     image: vaseImg,
+    onSale: true,
   },
   {
     id: 2,
@@ -38,6 +39,7 @@ function App() {
 }
 
 export default App
+
 
 
 

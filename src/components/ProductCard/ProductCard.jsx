@@ -1,43 +1,52 @@
-import PropTypes from 'prop-types'
-import './product-card.css'
+import React from 'react';
+import PropTypes from 'prop-types';
+import './product-card.css';
+import placeholderSvg from '../../assets/product-placeholder.svg';
 
-// Шлях до зображення-заглушки за відсутності фото
-const PLACEHOLDER_IMAGE = '/src/assets/product-placeholder.svg'
-
-/**
- * @param {Object} props
- * @param {string} props.name
- * @param {number} props.price
- * @param {string} [props.image]
- * @param {string} props.category
- * @param {boolean} [props.inStock=true]
- */
-function ProductCard({ name, price, image, category, inStock = true }) {
-  const imageSrc = image || PLACEHOLDER_IMAGE
-
+export default function ProductCard({
+  name = 'Назва товару',
+  price = 0,
+  category = 'Загальна',
+  image,
+  inStock = true,
+  onSale = false,
+}) {
   return (
-    <article className="product-card">
-      <img className="product-card__image" src={imageSrc} alt={name} />
-      <div className="product-card__content">
-        <h3 className="product-card__title">{name}</h3>
-        <p className="product-card__price">{price} грн</p>
-        <p className="product-card__category">{category}</p>
-        {!inStock && (
-          <span className="product-card__badge product-card__badge--out">
-            Немає в наявності
+    <div className={`product-card ${!inStock ? 'product-card--out-of-stock' : ''}`}>
+      <div className="product-card__image-wrapper">
+        <img
+          src={image || placeholderSvg}
+          alt={name}
+          className="product-card__image"
+        />
+        {onSale && inStock && (
+          <span className="product-card__badge product-card__badge--sale">
+            Розпродаж
           </span>
         )}
       </div>
-    </article>
-  )
+
+      <div className="product-card__content">
+        <h3 className="product-card__title">{name}</h3>
+        <p className="product-card__price">{price} грн</p>
+        <span className="product-card__category">{category}</span>
+
+        {!inStock && (
+          <div className="product-card__badge">
+            Немає в відкритості
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 ProductCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
+  name: PropTypes.string,
+  price: PropTypes.number,
+  category: PropTypes.string,
   image: PropTypes.string,
-  category: PropTypes.string.isRequired,
   inStock: PropTypes.bool,
-}
+  onSale: PropTypes.bool,
+};
 
-export default ProductCard
