@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchPanel from '../components/SearchPanel/SearchPanel';
 import ProductCard from '../components/ProductCard/ProductCard';
 import { mockProducts } from '../data/mockProducts';
 import './CatalogPage.css';
 
 function CatalogPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+  // Ініціалізуємо стан значенням із localStorage (якщо воно є), інакше — порожнім рядком
+  const [searchQuery, setSearchQuery] = useState(() => {
+    return localStorage.getItem('lastSearchQuery') || '';
+  });
+
+  // Зберігаємо searchQuery в localStorage при кожній його зміні
+  useEffect(() => {
+    localStorage.setItem('lastSearchQuery', searchQuery);
+  }, [searchQuery]);
 
   const filteredProducts = mockProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -42,6 +50,5 @@ function CatalogPage() {
 }
 
 export default CatalogPage;
-
 
 
