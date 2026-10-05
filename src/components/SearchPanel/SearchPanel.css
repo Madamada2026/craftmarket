@@ -1,0 +1,23 @@
+.search-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.search-panel__label {
+  font-size: 14px;
+  color: #4b4b4b;
+}
+
+.search-panel__input {
+  padding: 8px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.search-panel__input:focus {
+  outline: 2px solid #4ecdc4;
+  outline-offset: 1px;
+}
