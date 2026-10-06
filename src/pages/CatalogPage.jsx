@@ -1,22 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import SearchPanel from '../components/SearchPanel/SearchPanel';
-import ProductCard from '../components/ProductCard/ProductCard';
+import ProductList from '../components/ProductList/ProductList'; // Імпортуємо новий компонент
 import { mockProducts } from '../data/mockProducts';
 import './CatalogPage.css';
 
 function CatalogPage() {
-  // Ініціалізуємо стан значенням із localStorage (якщо воно є), інакше — порожнім рядком
+  // Зберігаємо ваш збережений стан з localStorage з ЛР3
   const [searchQuery, setSearchQuery] = useState(() => {
     return localStorage.getItem('lastSearchQuery') || '';
   });
 
-  // Зберігаємо searchQuery в localStorage при кожній його зміні
   useEffect(() => {
     localStorage.setItem('lastSearchQuery', searchQuery);
   }, [searchQuery]);
 
-  const filteredProducts = mockProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // Фільтрація масиву
+  const filteredProducts = useMemo(
+    () =>
+      mockProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [searchQuery]
   );
 
   return (
@@ -27,28 +31,11 @@ function CatalogPage() {
         Знайдено товарів: {filteredProducts.length}
       </p>
 
-      {filteredProducts.length === 0 ? (
-        <p className="catalog-page__empty-message">
-          За запитом «{searchQuery}» нічого не знайдено.
-        </p>
-      ) : (
-        <div className="catalog-page__grid">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              name={product.name}
-              price={product.price}
-              category={product.category}
-              image={product.image}
-              inStock={product.inStock}
-            />
-          ))}
-        </div>
-      )}
+      {/* Передаємо відфільтровані товари та пошуковий запит у новий компонент */}
+      <ProductList products={filteredProducts} searchQuery={searchQuery} />
     </div>
   );
 }
 
 export default CatalogPage;
-
 
