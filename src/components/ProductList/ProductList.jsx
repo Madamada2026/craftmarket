@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
 import ProductCard from '../ProductCard/ProductCard';
+import styles from './ProductList.module.css';
 
 function ProductList({ products, searchQuery }) {
-  // 1. Обробка порожнього стану (з вашої ЛР3)
   if (!products || products.length === 0) {
     return (
-      <p className="catalog-page__empty-message">
+      <p className={styles.emptyMessage}>
         За запитом «{searchQuery}» нічого не знайдено.
       </p>
     );
   }
 
-  // 2. Рендеринг сітки за допомогою .map() з ключем key={product.id}
   return (
-    <div className="catalog-page__grid">
+    <div className={styles.grid}>
       {products.map((product) => (
         <ProductCard
           key={product.id}
@@ -28,7 +27,6 @@ function ProductList({ products, searchQuery }) {
   );
 }
 
-// 3. Обов'язкова за методичкою перевірка PropTypes
 ProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
