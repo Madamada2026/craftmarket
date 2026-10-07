@@ -7,6 +7,7 @@ export function CatalogPage() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("name-asc");
+  const [selectedCategory, setSelectedCategory] = useState("Всі");
 
   useEffect(() => {
     let isActive = true;
@@ -39,12 +40,17 @@ export function CatalogPage() {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [selectedCategory]); // Повторне виконання ефекту при зміні обраної категорії
 
-  // Фільтрація за пошуком
-  const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Фільтрація за категорією та пошуком
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = p.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "Всі" || p.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   // Сортування
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -87,22 +93,53 @@ export function CatalogPage() {
             marginBottom: "15px",
           }}
         />
-        <div style={{ textAlign: "center", fontSize: "14px", color: "#4b5563" }}>
-          <label style={{ marginRight: "8px" }}>Сортувати за:</label>
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            style={{
-              padding: "6px 10px",
-              borderRadius: "4px",
-              border: "1px solid #d1d5db",
-            }}
-          >
-            <option value="name-asc">Назвою (А-Я)</option>
-            <option value="price-desc">Ціною (від найвищої)</option>
-            <option value="price-asc">Ціною (від найнижчої)</option>
-          </select>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "15px",
+            fontSize: "14px",
+            color: "#4b5563",
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <label style={{ marginRight: "8px" }}>Категорія:</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              style={{
+                padding: "6px 10px",
+                borderRadius: "4px",
+                border: "1px solid #d1d5db",
+              }}
+            >
+              <option value="Всі">Усі категорії</option>
+              <option value="Текстиль">Текстиль</option>
+              <option value="Дерево">Дерево</option>
+              <option value="Кераміка">Кераміка</option>
+              <option value="Свічки">Свічки</option>
+            </select>
+          </div>
+
+          <div>
+            <label style={{ marginRight: "8px" }}>Сортувати за:</label>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              style={{
+                padding: "6px 10px",
+                borderRadius: "4px",
+                border: "1px solid #d1d5db",
+              }}
+            >
+              <option value="name-asc">Назвою (А-Я)</option>
+              <option value="price-desc">Ціною (від найвищої)</option>
+              <option value="price-asc">Ціною (від найнижчої)</option>
+            </select>
+          </div>
         </div>
+
         <p style={{ textAlign: "center", fontSize: "13px", color: "#6b7280", marginTop: "10px" }}>
           Знайдено товарів: {sortedProducts.length}
         </p>
