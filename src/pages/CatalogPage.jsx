@@ -43,8 +43,13 @@ export function CatalogPage() {
     };
   }, []);
 
+  // Варіант 13: додавання відгуку з унікальним ідентифікатором (id)
   const handleReviewSubmit = (newReview) => {
-    setReviews((prev) => [...prev, newReview]);
+    const reviewWithId = {
+      ...newReview,
+      id: crypto.randomUUID ? crypto.randomUUID() : Date.now(),
+    };
+    setReviews((prev) => [...prev, reviewWithId]);
   };
 
   // Фільтрація за пошуком
@@ -120,13 +125,13 @@ export function CatalogPage() {
       {/* Форма відгуку з ЛР6 */}
       <ReviewForm onReviewSubmit={handleReviewSubmit} />
 
-      {/* Список збережених відгуків */}
+      {/* Варіант 13: Динамічний список відгуків з унікальним key */}
       {reviews.length > 0 && (
         <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0', maxWidth: '500px' }}>
           <h4 style={{ fontWeight: 'bold', marginBottom: '10px' }}>Додані відгуки ({reviews.length}):</h4>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {reviews.map((rev, index) => (
-              <li key={index} style={{ marginBottom: '10px', padding: '10px', borderBottom: '1px solid #cbd5e1' }}>
+            {reviews.map((rev) => (
+              <li key={rev.id} style={{ marginBottom: '10px', padding: '10px', borderBottom: '1px solid #cbd5e1' }}>
                 <p style={{ margin: '0 0 4px 0' }}><strong>Автор:</strong> {rev.authorName}</p>
                 <p style={{ margin: '0 0 4px 0' }}><strong>Оцінка:</strong> {rev.rating} / 5</p>
                 <p style={{ margin: 0 }}><strong>Відгук:</strong> {rev.reviewText}</p>
@@ -140,5 +145,3 @@ export function CatalogPage() {
 }
 
 export default CatalogPage;
-
-
