@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductList from "../components/ProductList/ProductList";
+import ReviewForm from "../components/ReviewForm";
 
 export function CatalogPage() {
   const [products, setProducts] = useState([]);
@@ -7,7 +8,7 @@ export function CatalogPage() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("name-asc");
-  const [selectedCategory, setSelectedCategory] = useState("Всі");
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     let isActive = true;
@@ -40,17 +41,16 @@ export function CatalogPage() {
     return () => {
       isActive = false;
     };
-  }, [selectedCategory]); // Повторне виконання ефекту при зміні обраної категорії
+  }, []);
 
-  // Фільтрація за категорією та пошуком
-  const filteredProducts = products.filter((p) => {
-    const matchesSearch = p.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "Всі" || p.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const handleReviewSubmit = (newReview) => {
+    setReviews((prev) => [...prev, newReview]);
+  };
+
+  // Фільтрація за пошуком
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Сортування
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -93,62 +93,52 @@ export function CatalogPage() {
             marginBottom: "15px",
           }}
         />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "15px",
-            fontSize: "14px",
-            color: "#4b5563",
-            flexWrap: "wrap",
-          }}
-        >
-          <div>
-            <label style={{ marginRight: "8px" }}>Категорія:</label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              style={{
-                padding: "6px 10px",
-                borderRadius: "4px",
-                border: "1px solid #d1d5db",
-              }}
-            >
-              <option value="Всі">Усі категорії</option>
-              <option value="Текстиль">Текстиль</option>
-              <option value="Дерево">Дерево</option>
-              <option value="Кераміка">Кераміка</option>
-              <option value="Свічки">Свічки</option>
-            </select>
-          </div>
-
-          <div>
-            <label style={{ marginRight: "8px" }}>Сортувати за:</label>
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              style={{
-                padding: "6px 10px",
-                borderRadius: "4px",
-                border: "1px solid #d1d5db",
-              }}
-            >
-              <option value="name-asc">Назвою (А-Я)</option>
-              <option value="price-desc">Ціною (від найвищої)</option>
-              <option value="price-asc">Ціною (від найнижчої)</option>
-            </select>
-          </div>
+        <div style={{ textAlign: "center", fontSize: "14px", color: "#4b5563" }}>
+          <label style={{ marginRight: "8px" }}>Сортувати за:</label>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            style={{
+              padding: "6px 10px",
+              borderRadius: "4px",
+              border: "1px solid #d1d5db",
+            }}
+          >
+            <option value="name-asc">Назвою (А-Я)</option>
+            <option value="price-desc">Ціною (від найвищої)</option>
+            <option value="price-asc">Ціною (від найнижчої)</option>
+          </select>
         </div>
-
         <p style={{ textAlign: "center", fontSize: "13px", color: "#6b7280", marginTop: "10px" }}>
           Знайдено товарів: {sortedProducts.length}
         </p>
       </div>
 
+      {/* Список товарів із ЛР5 */}
       <ProductList products={sortedProducts} searchQuery={searchQuery} />
+
+      {/* Форма відгуку з ЛР6 */}
+      <ReviewForm onReviewSubmit={handleReviewSubmit} />
+
+      {/* Список збережених відгуків */}
+      {reviews.length > 0 && (
+        <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0', maxWidth: '500px' }}>
+          <h4 style={{ fontWeight: 'bold', marginBottom: '10px' }}>Додані відгуки ({reviews.length}):</h4>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {reviews.map((rev, index) => (
+              <li key={index} style={{ marginBottom: '10px', padding: '10px', borderBottom: '1px solid #cbd5e1' }}>
+                <p style={{ margin: '0 0 4px 0' }}><strong>Автор:</strong> {rev.authorName}</p>
+                <p style={{ margin: '0 0 4px 0' }}><strong>Оцінка:</strong> {rev.rating} / 5</p>
+                <p style={{ margin: 0 }}><strong>Відгук:</strong> {rev.reviewText}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
 
 export default CatalogPage;
+
 
