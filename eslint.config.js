@@ -26,6 +26,7 @@ export default [
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": "warn",
+      "no-unused-vars": "off" // Отключаем ложные предупреждения линтера о неиспользуемых переменных
     },
   },
   prettierConfig,
