@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import ProductCard from '../ProductCard/ProductCard';
 import styles from './ProductList.module.css';
 
-function ProductList({ products, searchQuery, onAddToCart }) {
+function ProductList({ products, searchQuery }) {
   if (!products || products.length === 0) {
     return (
       <p className={styles.emptyMessage}>
@@ -14,16 +14,7 @@ function ProductList({ products, searchQuery, onAddToCart }) {
   return (
     <div className={styles.grid}>
       {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          name={product.name}
-          price={product.price}
-          category={product.category}
-          image={product.image}
-          inStock={product.inStock}
-          onSale={product.onSale}
-          onAddToCart={() => onAddToCart(product)}
-        />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
@@ -42,7 +33,6 @@ ProductList.propTypes = {
     })
   ).isRequired,
   searchQuery: PropTypes.string,
-  onAddToCart: PropTypes.func.isRequired,
 };
 
 export default ProductList;

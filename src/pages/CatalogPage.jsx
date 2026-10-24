@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import ProductList from '../components/ProductList/ProductList';
 import ReviewForm from '../components/ReviewForm';
 
-export function CatalogPage({ onAddToCart }) {
+export function CatalogPage() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -117,11 +116,7 @@ export function CatalogPage({ onAddToCart }) {
         </p>
       </div>
 
-      <ProductList
-        products={sortedProducts}
-        searchQuery={searchQuery}
-        onAddToCart={onAddToCart}
-      />
+      <ProductList products={sortedProducts} searchQuery={searchQuery} />
 
       <ReviewForm onReviewSubmit={handleReviewSubmit} />
 
@@ -142,9 +137,5 @@ export function CatalogPage({ onAddToCart }) {
     </div>
   );
 }
-
-CatalogPage.propTypes = {
-  onAddToCart: PropTypes.func.isRequired,
-};
 
 export default CatalogPage;
