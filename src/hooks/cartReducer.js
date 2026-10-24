@@ -1,30 +1,21 @@
-/**
- * Позиція кошика CraftMarket.
- * @typedef {Object} CartItem
- * @property {string} id    ідентифікатор товару з каталогу
- * @property {string} title назва товару
- * @property {number} price ціна за одиницю, грн
- * @property {string} [image] URL зображення
- * @property {number} quantity кількість одиниць, завжди >= 1
- */
-
-/** @typedef {{ items: CartItem[] }} CartState */
+// src/hooks/cartReducer.js
 
 export const CART_ACTIONS = Object.freeze({
   ADD_ITEM: 'cart/addItem',
   REMOVE_ITEM: 'cart/removeItem',
   UPDATE_QUANTITY: 'cart/updateQuantity',
   CLEAR: 'cart/clear',
+  APPLY_PROMO: 'cart/applyPromo', // Нова дія для промокоду
 });
 
 /** @type {CartState} */
-export const initialCartState = Object.freeze({ items: [] });
+export const initialCartState = Object.freeze({
+  items: [],
+  promoCode: '',         // Застосований промокод
+  discountPercent: 0,   // Відсоток знижки
+  promoError: '',        // Повідомлення про помилку
+});
 
-/**
- * @param {CartState} state
- * @param {{ type: string, payload?: object }} action
- * @returns {CartState}
- */
 export function cartReducer(state, action) {
   switch (action.type) {
     case CART_ACTIONS.ADD_ITEM: {
@@ -73,6 +64,35 @@ export function cartReducer(state, action) {
 
     case CART_ACTIONS.CLEAR:
       return initialCartState;
+
+    // ОБРОБКА ІНДИВІДУАЛЬНОГО ЗАВДАННЯ № 6 (Промокод CRAFT10)
+    case CART_ACTIONS.APPLY_PROMO: {
+      const code = action.payload.code.trim().toUpperCase();
+
+      // Крайовий випадок 1: повторне введення того самого діючого промокоду
+      if (code === state.promoCode) {
+        return {
+          ...state,
+          promoError: 'Цей промокод вже застосовано!',
+        };
+      }
+
+      // Перевірка валідності промокоду
+      if (code === 'CRAFT10') {
+        return {
+          ...state,
+          promoCode: 'CRAFT10',
+          discountPercent: 10,
+          promoError: '', // Очищаємо помилку при успіху
+        };
+      }
+
+      // Крайовий випадок 2: невідомий код не змінює суму, а записує помилку в стан
+      return {
+        ...state,
+        promoError: 'Невідомий промокод. Спробуйте CRAFT10',
+      };
+    }
 
     default:
       throw new Error(`Невідома дія кошика: ${action.type}`);

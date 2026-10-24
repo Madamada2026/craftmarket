@@ -1,10 +1,7 @@
+// src/hooks/useCart.js
 import { useCallback, useMemo, useReducer } from 'react';
 import { CART_ACTIONS, cartReducer, initialCartState } from './cartReducer.js';
 
-/**
- * Кошик покупок CraftMarket.
- * Викликати ОДИН раз у спільному предку компонентів, яким потрібен кошик.
- */
 export function useCart() {
   const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
@@ -25,24 +22,41 @@ export function useCart() {
     dispatch({ type: CART_ACTIONS.CLEAR });
   }, []);
 
+  // Метод для застосування промокоду
+  const applyPromoCode = useCallback((code) => {
+    dispatch({ type: CART_ACTIONS.APPLY_PROMO, payload: { code } });
+  }, []);
+
   const totals = useMemo(() => {
     let totalCount = 0;
-    let totalPrice = 0;
+    let rawPrice = 0;
+
     for (const item of state.items) {
       totalCount += item.quantity;
-      totalPrice += item.price * item.quantity;
+      rawPrice += item.price * item.quantity;
     }
-    return { totalCount, totalPrice };
-  }, [state.items]);
+
+    // Розрахунок підсумкової суми з урахуванням знижки
+    const discountAmount = Math.round((rawPrice * state.discountPercent) / 100);
+    const totalPrice = rawPrice - discountAmount;
+
+    return { totalCount, rawPrice, discountAmount, totalPrice };
+  }, [state.items, state.discountPercent]);
 
   return {
     items: state.items,
     totalCount: totals.totalCount,
+    rawPrice: totals.rawPrice,
+    discountAmount: totals.discountAmount,
     totalPrice: totals.totalPrice,
+    discountPercent: state.discountPercent,
+    promoCode: state.promoCode,
+    promoError: state.promoError,
     isEmpty: state.items.length === 0,
     addItem,
     removeItem,
     updateQuantity,
     clearCart,
+    applyPromoCode,
   };
 }
