@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ProductList from '../components/ProductList/ProductList';
 import ReviewForm from '../components/ReviewForm';
+import StatusMessage from '../components/StatusMessage';
 
 export function CatalogPage() {
   const [products, setProducts] = useState([]);
@@ -63,19 +64,11 @@ export function CatalogPage() {
   });
 
   if (isLoading) {
-    return (
-      <p role="status" className="mt-8 text-center text-ink-muted">
-        Завантаження каталогу…
-      </p>
-    );
+    return <StatusMessage status="loading" />;
   }
 
   if (error) {
-    return (
-      <p role="alert" className="mt-8 rounded-card border border-clay-600 bg-clay-50 px-4 py-3 text-clay-700">
-        Не вдалося завантажити каталог: {error}
-      </p>
-    );
+    return <StatusMessage status="error" errorText={error} />;
   }
 
   return (
@@ -121,7 +114,7 @@ export function CatalogPage() {
       {/* Сітка товарів */}
       <ProductList products={sortedProducts} searchQuery={searchQuery} />
 
-      {/* Блок відгуків (залишаємо як був, він не стосується Tailwind) */}
+      {/* Блок відгуків */}
       <div className="mt-12 border-t border-line pt-8">
         <ReviewForm onReviewSubmit={handleReviewSubmit} />
 
