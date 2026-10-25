@@ -2,18 +2,11 @@ import PropTypes from 'prop-types';
 import { useCartContext } from '../../context/useCartContext';
 
 const classes = [
-  // розмітка
-  'inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 mt-2',
-  // типографіка
+  'inline-flex w-full items-center justify-center rounded-control px-4 py-2.5 mt-2',
   'text-sm font-semibold text-white',
-  // колір і стани наведення та натискання (лише для доступної кнопки)
-  'bg-clay-600 enabled:hover:bg-clay-700 enabled:active:bg-clay-700',
-  // видимий фокус для керування з клавіатури
-  'focus-visible:outline-2 focus-visible:outline-offset-2',
-  'focus-visible:outline-clay-700',
-  // недоступний стан
-  'disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-muted',
-  // плавний перехід
+  'bg-brand-600 enabled:hover:bg-brand-700 enabled:active:bg-brand-800',
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600',
+  'disabled:cursor-not-allowed disabled:bg-ink-100 disabled:text-ink-500',
   'transition-colors duration-200 ease-soft motion-reduce:transition-none',
 ].join(' ');
 

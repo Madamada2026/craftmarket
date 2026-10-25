@@ -1,0 +1,35 @@
+/* src/styles/tokens.css — дизайн-токени CraftMarket */
+@theme {
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+
+  /* Тло сторінки */
+  --color-paper: #fffbf5;
+
+  /* Нейтральна шкала */
+  --color-ink-100: #f5f5f4;
+  --color-ink-300: #d6d3d1;
+  --color-ink-500: #78716c;
+  --color-ink-600: #57534e;
+  --color-ink-800: #44403c;
+  --color-ink-900: #292524;
+
+  /* Акцент бренду */
+  --color-brand-100: #ffedd5;
+  --color-brand-600: #c2410c;
+  --color-brand-700: #9a3412;
+  --color-brand-800: #7c2d12;
+
+  /* Семантичні кольори */
+  --color-danger-100: #fee2e2;
+  --color-danger-600: #b91c1c;
+  --color-danger-700: #991b1b;
+
+  --color-success-100: #dcfce7;
+  --color-success-800: #166534;
+
+  --color-warning-100: #fef3c7;
+  --color-warning-900: #78350f;
+
+  /* Форма елементів керування */
+  --radius-control: 0.5rem;
+}

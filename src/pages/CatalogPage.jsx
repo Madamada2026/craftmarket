@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ProductList from '../components/ProductList/ProductList';
-import ReviewForm from '../components/ReviewForm';
+import { ReviewForm } from '../components/ReviewForm';
 import StatusMessage from '../components/StatusMessage';
 
 export function CatalogPage() {
@@ -74,7 +74,7 @@ export function CatalogPage() {
   return (
     <div className="w-full">
       {/* Панель керування: Пошук і Сортування (адаптивна) */}
-      <div className="mb-8 flex flex-col gap-4 rounded-card border border-line bg-white p-4 shadow-card md:flex-row md:items-end md:justify-between">
+      <div className="mb-8 flex flex-col gap-4 rounded-control border border-ink-300 bg-white p-4 shadow-sm md:flex-row md:items-end md:justify-between">
         <div className="flex-1 w-full">
           <label htmlFor="catalog-search" className="sr-only">
             Пошук за назвою товару
@@ -85,19 +85,19 @@ export function CatalogPage() {
             placeholder="Пошук товару..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-11 w-full rounded-lg border border-edge bg-paper px-4 text-base text-ink placeholder:text-ink-muted focus:border-clay-600 focus:outline-2 focus:outline-offset-0 focus:outline-clay-600/40"
+            className="h-11 w-full rounded-control border border-ink-500 bg-paper px-4 text-base text-ink-900 placeholder:text-ink-500 focus:border-brand-600 focus:outline-2 focus:outline-offset-0 focus:outline-brand-600/40"
           />
         </div>
         
         <div className="flex items-center gap-3 w-full md:w-auto">
-          <label htmlFor="sort-select" className="text-sm font-medium text-ink whitespace-nowrap">
+          <label htmlFor="sort-select" className="text-sm font-medium text-ink-900 whitespace-nowrap">
             Сортувати:
           </label>
           <select
             id="sort-select"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            className="h-11 w-full rounded-lg border border-edge bg-white px-4 text-base text-ink focus:border-clay-600 focus:outline-none md:w-64"
+            className="h-11 w-full rounded-control border border-ink-500 bg-white px-4 text-base text-ink-900 focus:border-brand-600 focus:outline-none md:w-64"
           >
             <option value="name-asc">Назвою (А-Я)</option>
             <option value="price-desc">Ціною (від найвищої)</option>
@@ -107,32 +107,32 @@ export function CatalogPage() {
       </div>
 
       {/* Лічильник знайдених товарів */}
-      <p role="status" className="mb-4 text-sm text-ink-muted">
-        Знайдено товарів: <span className="font-semibold text-ink">{sortedProducts.length}</span>
+      <p role="status" className="mb-4 text-sm text-ink-600">
+        Знайдено товарів: <span className="font-semibold text-ink-900">{sortedProducts.length}</span>
       </p>
 
       {/* Сітка товарів */}
       <ProductList products={sortedProducts} searchQuery={searchQuery} />
 
       {/* Блок відгуків */}
-      <div className="mt-12 border-t border-line pt-8">
+      <div className="mt-12 border-t border-ink-300 pt-8">
         <ReviewForm onReviewSubmit={handleReviewSubmit} />
 
         {reviews.length > 0 && (
-          <div className="mt-6 rounded-card border border-line bg-white p-6 shadow-card">
-            <h4 className="mb-4 font-display text-lg font-bold text-ink">
+          <div className="mt-6 rounded-control border border-ink-300 bg-white p-6 shadow-sm">
+            <h4 className="mb-4 font-sans text-lg font-bold text-ink-900">
               Додані відгуки ({reviews.length}):
             </h4>
             <ul className="space-y-4">
               {reviews.map((rev) => (
-                <li key={rev.id} className="border-b border-line pb-4 last:border-0">
-                  <p className="mb-1 text-sm text-ink">
+                <li key={rev.id} className="border-b border-ink-300 pb-4 last:border-0">
+                  <p className="mb-1 text-sm text-ink-900">
                     <strong>Автор:</strong> {rev.authorName}
                   </p>
-                  <p className="mb-1 text-sm text-ink">
+                  <p className="mb-1 text-sm text-ink-900">
                     <strong>Оцінка:</strong> {rev.rating} / 5
                   </p>
-                  <p className="text-sm text-ink-muted">
+                  <p className="text-sm text-ink-600">
                     <strong>Відгук:</strong> {rev.reviewText}
                   </p>
                 </li>

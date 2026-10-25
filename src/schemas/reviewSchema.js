@@ -7,10 +7,13 @@ export const reviewSchema = z.object({
     .min(2, "Ім'я має містити щонайменше 2 символи")
     .max(50, "Ім'я не може перевищувати 50 символів"),
   rating: z
-    .coerce
-    .number({ invalid_type_error: 'Оберіть оцінку від 1 до 5' })
-    .min(1, 'Мінімальна оцінка — 1')
-    .max(5, 'Максимальна оцінка — 5'),
+    .string({ required_error: "Будь ласка, оберіть оцінку від 1 до 5" })
+    .trim()
+    .min(1, "Будь ласка, оберіть оцінку від 1 до 5")
+    .refine((val) => {
+      const num = Number(val);
+      return !isNaN(num) && num >= 1 && num <= 5;
+    }, { message: "Оцінка має бути числом від 1 до 5" }),
   reviewText: z
     .string()
     .trim()

@@ -8,17 +8,17 @@ export default function App() {
   return (
     <div className="min-h-screen bg-paper">
       {/* Шапка сайту */}
-      <header className="border-b border-line bg-white shadow-sm">
+      <header className="border-b border-ink-300 bg-white shadow-sm">
         <PageContainer>
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center gap-6">
               <a
                 href="/"
-                className="font-display text-2xl font-bold tracking-tight text-clay-700"
+                className="font-sans text-2xl font-bold tracking-tight text-brand-700"
               >
                 CraftMarket
               </a>
-              <p className="hidden text-sm text-ink-muted md:block">
+              <p className="hidden text-sm text-ink-600 md:block">
                 Товари ручної роботи від майстрів України
               </p>
             </div>
@@ -33,7 +33,7 @@ export default function App() {
           <div className="flex flex-col gap-8 lg:flex-row">
             {/* Каталог займає більшу частину екрану */}
             <div className="flex-1">
-              <h1 className="mb-6 font-display text-3xl font-bold text-ink">
+              <h1 className="mb-6 font-sans text-3xl font-bold text-ink-900">
                 Каталог товарів
               </h1>
               <CatalogPage />
@@ -41,7 +41,7 @@ export default function App() {
 
             {/* Кошик збоку (на великих екранах) */}
             <aside className="w-full lg:w-96">
-              <div className="sticky top-8 rounded-card border border-line bg-white p-6 shadow-card">
+              <div className="sticky top-8 rounded-control border border-ink-300 bg-white p-6 shadow-sm">
                 <CartPage />
               </div>
             </aside>

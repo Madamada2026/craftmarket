@@ -1,33 +1,10 @@
 @import "tailwindcss";
-
-@theme {
-  /* Колір: теракота для акцентів і теплі «паперові» нейтральні відтінки */
-  --color-clay-50: #fbf3ef;
-  --color-clay-100: #f5e1d6;
-  --color-clay-600: #b4492b;
-  --color-clay-700: #8f3a22;
-  --color-ink: #2b2420;
-  --color-ink-muted: #6b5f57;
-  --color-paper: #fdfaf6;
-  --color-line: #e6dcd2;
-  --color-edge: #8a7d73;
-
-  /* Типографіка: шрифт із засічками для заголовків */
-  --font-display: Georgia, "Times New Roman", serif;
-
-  /* Форма й глибина */
-  --radius-card: 0.875rem;
-  --shadow-card: 0 1px 2px rgb(43 36 32 / 6%), 0 4px 12px rgb(43 36 32 / 8%);
-  --shadow-lift: 0 2px 4px rgb(43 36 32 / 8%), 0 12px 24px rgb(43 36 32 / 14%);
-
-  /* Плавність переходів */
-  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
-}
+@import "./styles/tokens.css";
 
 @layer base {
   body {
     background-color: var(--color-paper);
-    color: var(--color-ink);
-    -webkit-font-smoothing: antialiased;
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
   }
 }
