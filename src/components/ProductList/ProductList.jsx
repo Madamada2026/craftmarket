@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import ProductCard from '../ProductCard/ProductCard';
 
-const gridClasses = 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
+// Адаптивна сітка: 1 колонка за замовчуванням, 2 від sm, 4 від lg
+const gridClasses = 'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6';
 
 const emptyClasses = [
   'mt-8 rounded-card border border-dashed border-line',

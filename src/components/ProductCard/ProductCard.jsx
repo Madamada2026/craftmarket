@@ -23,10 +23,14 @@ export default function ProductCard({ product }) {
 
   return (
     <article className={cardClasses}>
-      <div className="aspect-4/3 overflow-hidden bg-clay-50">
+            <div className="aspect-4/3 overflow-hidden bg-clay-50 relative">
         <img
           src={image || PLACEHOLDER}
+          srcSet={image ? `${image} 1x, ${image} 2x` : undefined}
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           alt={name}
+          width="400"
+          height="300"
           className={`${imageClasses} ${imageState}`}
         />
         {onSale && inStock && (

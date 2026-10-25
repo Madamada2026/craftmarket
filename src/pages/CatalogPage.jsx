@@ -73,9 +73,9 @@ export function CatalogPage() {
 
   return (
     <div className="w-full">
-      {/* Панель керування: Пошук і Сортування */}
-      <div className="mb-8 rounded-card border border-line bg-white p-4 shadow-card sm:flex sm:items-center sm:justify-between sm:gap-6">
-        <div className="flex-1">
+      {/* Панель керування: Пошук і Сортування (адаптивна) */}
+      <div className="mb-8 flex flex-col gap-4 rounded-card border border-line bg-white p-4 shadow-card md:flex-row md:items-end md:justify-between">
+        <div className="flex-1 w-full">
           <label htmlFor="catalog-search" className="sr-only">
             Пошук за назвою товару
           </label>
@@ -85,19 +85,19 @@ export function CatalogPage() {
             placeholder="Пошук товару..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border border-edge bg-paper px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-clay-600 focus:outline-2 focus:outline-offset-0 focus:outline-clay-600/40"
+            className="h-11 w-full rounded-lg border border-edge bg-paper px-4 text-base text-ink placeholder:text-ink-muted focus:border-clay-600 focus:outline-2 focus:outline-offset-0 focus:outline-clay-600/40"
           />
         </div>
         
-        <div className="mt-4 flex items-center gap-3 sm:mt-0">
-          <label htmlFor="sort-select" className="text-sm font-medium text-ink">
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <label htmlFor="sort-select" className="text-sm font-medium text-ink whitespace-nowrap">
             Сортувати:
           </label>
           <select
             id="sort-select"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            className="rounded-lg border border-edge bg-paper px-4 py-2.5 text-sm text-ink focus:border-clay-600 focus:outline-none"
+            className="h-11 w-full rounded-lg border border-edge bg-white px-4 text-base text-ink focus:border-clay-600 focus:outline-none md:w-64"
           >
             <option value="name-asc">Назвою (А-Я)</option>
             <option value="price-desc">Ціною (від найвищої)</option>
