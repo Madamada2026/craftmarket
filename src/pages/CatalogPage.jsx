@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ProductList from '../components/ProductList/ProductList';
 import { ReviewForm } from '../components/ReviewForm';
 import StatusMessage from '../components/StatusMessage';
+import ProductModal from '../components/ProductModal';
 
 export function CatalogPage() {
   const [products, setProducts] = useState([]);
@@ -10,6 +11,7 @@ export function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('name-asc');
   const [reviews, setReviews] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     let isActive = true;
@@ -51,6 +53,8 @@ export function CatalogPage() {
     };
     setReviews((prev) => [...prev, reviewWithId]);
   };
+
+  const handleCloseModal = useCallback(() => setSelectedProduct(null), []);
 
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -112,7 +116,16 @@ export function CatalogPage() {
       </p>
 
       {/* Сітка товарів */}
-      <ProductList products={sortedProducts} searchQuery={searchQuery} />
+      <ProductList 
+        products={sortedProducts} 
+        searchQuery={searchQuery} 
+        onOpenDetails={setSelectedProduct}
+      />
+
+      {/* Модальне вікно */}
+      {selectedProduct && (
+        <ProductModal product={selectedProduct} onClose={handleCloseModal} />
+      )}
 
       {/* Блок відгуків */}
       <div className="mt-12 border-t border-ink-300 pt-8">

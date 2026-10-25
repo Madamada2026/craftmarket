@@ -5,7 +5,7 @@ import { useCartContext } from '../../context/useCartContext';
 
 const PLACEHOLDER = placeholderSvg;
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onOpenDetails }) {
   const { name, price, category, image, inStock, onSale } = product;
   const { items, addItem } = useCartContext();
   const inCart = items.find((item) => item.id === product.id);
@@ -33,7 +33,7 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <Card className="group flex w-full flex-col overflow-hidden transition-shadow duration-300 hover:shadow-md">
+    <Card className="group flex w-full flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-lg">
       <div className="aspect-4/3 overflow-hidden bg-ink-100 relative">
         <img
           src={image || PLACEHOLDER}
@@ -54,19 +54,29 @@ export default function ProductCard({ product }) {
           <span className="text-sm font-medium text-ink-500">грн</span>
         </p>
         
-        <Button
-          variant={inCart ? "secondary" : "primary"}
-          size="md"
-          disabled={!inStock}
-          onClick={handleAddToCart}
-          className="mt-2 w-full"
-        >
-          {!inStock
-            ? "Немає в наявності"
-            : inCart
-            ? `У кошику (${inCart.quantity})`
-            : "До кошика"}
-        </Button>
+        <div className="mt-2 flex gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={onOpenDetails}
+            className="flex-1 active:scale-95 transition duration-150"
+          >
+            Деталі
+          </Button>
+          <Button
+            variant={inCart ? "secondary" : "primary"}
+            size="sm"
+            disabled={!inStock}
+            onClick={handleAddToCart}
+            className="flex-1 active:scale-95 transition duration-150 disabled:active:scale-100"
+          >
+            {!inStock
+              ? "Немає"
+              : inCart
+              ? `У кошику (${inCart.quantity})`
+              : "До кошика"}
+          </Button>
+        </div>
       </div>
     </Card>
   );
@@ -82,4 +92,5 @@ ProductCard.propTypes = {
     inStock: PropTypes.bool,
     onSale: PropTypes.bool,
   }).isRequired,
+  onOpenDetails: PropTypes.func,
 };

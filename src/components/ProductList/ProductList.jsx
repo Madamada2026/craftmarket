@@ -5,18 +5,18 @@ import ProductCard from '../ProductCard/ProductCard';
 const gridClasses = 'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6';
 
 const emptyClasses = [
-  'mt-8 rounded-card border border-dashed border-line',
+  'mt-8 rounded-control border border-dashed border-ink-300',
   'bg-white px-6 py-12 text-center',
 ].join(' ');
 
-function ProductList({ products, searchQuery }) {
+function ProductList({ products, searchQuery, onOpenDetails }) {
   if (!products || products.length === 0) {
     return (
       <div className={emptyClasses}>
-        <p className="font-display text-xl font-semibold text-ink">
+        <p className="font-sans text-xl font-semibold text-ink-900">
           Нічого не знайдено
         </p>
-        <p className="mt-2 text-sm text-ink-muted">
+        <p className="mt-2 text-sm text-ink-600">
           За запитом «{searchQuery}» нічого не знайдено. Спробуйте змінити запит.
         </p>
       </div>
@@ -27,7 +27,7 @@ function ProductList({ products, searchQuery }) {
     <div className={gridClasses}>
       {products.map((product) => (
         <div key={product.id} className="flex">
-          <ProductCard product={product} />
+          <ProductCard product={product} onOpenDetails={() => onOpenDetails(product)} />
         </div>
       ))}
     </div>
@@ -47,6 +47,7 @@ ProductList.propTypes = {
     })
   ).isRequired,
   searchQuery: PropTypes.string,
+  onOpenDetails: PropTypes.func,
 };
 
 export default ProductList;

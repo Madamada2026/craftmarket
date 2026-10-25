@@ -1,10 +1,66 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
+@theme {
+  /* Ваші існуючі токени з ЛР11 (залишаємо їх) */
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --color-paper: #fffbf5;
+  --color-ink-100: #f5f5f4;
+  --color-ink-300: #d6d3d1;
+  --color-ink-500: #78716c;
+  --color-ink-600: #57534e;
+  --color-ink-800: #44403c;
+  --color-ink-900: #292524;
+  --color-brand-100: #ffedd5;
+  --color-brand-600: #c2410c;
+  --color-brand-700: #9a3412;
+  --color-brand-800: #7c2d12;
+  --color-danger-100: #fee2e2;
+  --color-danger-600: #b91c1c;
+  --color-danger-700: #991b1b;
+  --color-success-100: #dcfce7;
+  --color-success-800: #166534;
+  --color-warning-100: #fef3c7;
+  --color-warning-900: #78350f;
+  --radius-control: 0.5rem;
+
+  /* Нові анімаційні токени з ЛР12 */
+  --animate-badge-pop: badge-pop 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-overlay-in: overlay-in 200ms ease-out both;
+  --animate-overlay-out: overlay-out 200ms ease-in both;
+  --animate-modal-in: modal-in 250ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-modal-out: modal-out 200ms ease-in both;
+
+  @keyframes badge-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); }
+    100% { transform: scale(1); }
+  }
+  @keyframes overlay-in  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes overlay-out { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes modal-out {
+    from { opacity: 1; transform: none; }
+    to   { opacity: 0; transform: translateY(8px) scale(0.98); }
+  }
+}
+
 @layer base {
   body {
     background-color: var(--color-paper);
     color: var(--color-ink-900);
     font-family: var(--font-sans);
+  }
+}
+
+/* Зменшений рух: анімації стають миттєвими */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
