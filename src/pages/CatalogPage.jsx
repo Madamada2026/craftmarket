@@ -64,7 +64,7 @@ export function CatalogPage() {
 
   if (isLoading) {
     return (
-      <p style={{ textAlign: 'center', padding: '40px 0', color: '#64748b' }}>
+      <p role="status" className="mt-8 text-center text-ink-muted">
         Завантаження каталогу…
       </p>
     );
@@ -72,68 +72,82 @@ export function CatalogPage() {
 
   if (error) {
     return (
-      <p style={{ textAlign: 'center', padding: '40px 0', color: '#dc2626' }} role="alert">
+      <p role="alert" className="mt-8 rounded-card border border-clay-600 bg-clay-50 px-4 py-3 text-clay-700">
         Не вдалося завантажити каталог: {error}
       </p>
     );
   }
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Пошук товару..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '10px 14px',
-            fontSize: '15px',
-            borderRadius: '6px',
-            border: '1px solid #d1d5db',
-            marginBottom: '15px',
-          }}
-        />
-        <div style={{ textAlign: 'center', fontSize: '14px', color: '#4b5563' }}>
-          <label style={{ marginRight: '8px' }}>Сортувати за:</label>
+    <div className="w-full">
+      {/* Панель керування: Пошук і Сортування */}
+      <div className="mb-8 rounded-card border border-line bg-white p-4 shadow-card sm:flex sm:items-center sm:justify-between sm:gap-6">
+        <div className="flex-1">
+          <label htmlFor="catalog-search" className="sr-only">
+            Пошук за назвою товару
+          </label>
+          <input
+            id="catalog-search"
+            type="search"
+            placeholder="Пошук товару..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-lg border border-edge bg-paper px-4 py-2.5 text-ink placeholder:text-ink-muted focus:border-clay-600 focus:outline-2 focus:outline-offset-0 focus:outline-clay-600/40"
+          />
+        </div>
+        
+        <div className="mt-4 flex items-center gap-3 sm:mt-0">
+          <label htmlFor="sort-select" className="text-sm font-medium text-ink">
+            Сортувати:
+          </label>
           <select
+            id="sort-select"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            style={{
-              padding: '6px 10px',
-              borderRadius: '4px',
-              border: '1px solid #d1d5db',
-            }}
+            className="rounded-lg border border-edge bg-paper px-4 py-2.5 text-sm text-ink focus:border-clay-600 focus:outline-none"
           >
             <option value="name-asc">Назвою (А-Я)</option>
             <option value="price-desc">Ціною (від найвищої)</option>
             <option value="price-asc">Ціною (від найнижчої)</option>
           </select>
         </div>
-        <p style={{ textAlign: 'center', fontSize: '13px', color: '#6b7280', marginTop: '10px' }}>
-          Знайдено товарів: {sortedProducts.length}
-        </p>
       </div>
 
+      {/* Лічильник знайдених товарів */}
+      <p role="status" className="mb-4 text-sm text-ink-muted">
+        Знайдено товарів: <span className="font-semibold text-ink">{sortedProducts.length}</span>
+      </p>
+
+      {/* Сітка товарів */}
       <ProductList products={sortedProducts} searchQuery={searchQuery} />
 
-      <ReviewForm onReviewSubmit={handleReviewSubmit} />
+      {/* Блок відгуків (залишаємо як був, він не стосується Tailwind) */}
+      <div className="mt-12 border-t border-line pt-8">
+        <ReviewForm onReviewSubmit={handleReviewSubmit} />
 
-      {reviews.length > 0 && (
-        <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0', maxWidth: '500px' }}>
-          <h4 style={{ fontWeight: 'bold', marginBottom: '10px' }}>Додані відгуки ({reviews.length}):</h4>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {reviews.map((rev) => (
-              <li key={rev.id} style={{ marginBottom: '10px', padding: '10px', borderBottom: '1px solid #cbd5e1' }}>
-                <p style={{ margin: '0 0 4px 0' }}><strong>Автор:</strong> {rev.authorName}</p>
-                <p style={{ margin: '0 0 4px 0' }}><strong>Оцінка:</strong> {rev.rating} / 5</p>
-                <p style={{ margin: 0 }}><strong>Відгук:</strong> {rev.reviewText}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {reviews.length > 0 && (
+          <div className="mt-6 rounded-card border border-line bg-white p-6 shadow-card">
+            <h4 className="mb-4 font-display text-lg font-bold text-ink">
+              Додані відгуки ({reviews.length}):
+            </h4>
+            <ul className="space-y-4">
+              {reviews.map((rev) => (
+                <li key={rev.id} className="border-b border-line pb-4 last:border-0">
+                  <p className="mb-1 text-sm text-ink">
+                    <strong>Автор:</strong> {rev.authorName}
+                  </p>
+                  <p className="mb-1 text-sm text-ink">
+                    <strong>Оцінка:</strong> {rev.rating} / 5
+                  </p>
+                  <p className="text-sm text-ink-muted">
+                    <strong>Відгук:</strong> {rev.reviewText}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

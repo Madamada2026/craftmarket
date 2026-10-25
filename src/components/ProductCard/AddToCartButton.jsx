@@ -1,28 +1,29 @@
 import PropTypes from 'prop-types';
 import { useCartContext } from '../../context/useCartContext';
 
+const classes = [
+  // розмітка
+  'inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 mt-2',
+  // типографіка
+  'text-sm font-semibold text-white',
+  // колір і стани наведення та натискання (лише для доступної кнопки)
+  'bg-clay-600 enabled:hover:bg-clay-700 enabled:active:bg-clay-700',
+  // видимий фокус для керування з клавіатури
+  'focus-visible:outline-2 focus-visible:outline-offset-2',
+  'focus-visible:outline-clay-700',
+  // недоступний стан
+  'disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-muted',
+  // плавний перехід
+  'transition-colors duration-200 ease-soft motion-reduce:transition-none',
+].join(' ');
+
 export default function AddToCartButton({ product }) {
   const { items, addItem } = useCartContext();
   const inCart = items.find((item) => item.id === product.id);
 
   if (!product.inStock) {
     return (
-      <button
-        type="button"
-        className="product-card__add"
-        disabled
-        style={{
-          marginTop: '10px',
-          padding: '8px 16px',
-          backgroundColor: '#cbd5e1',
-          color: '#ffffff',
-          border: 'none',
-          borderRadius: '6px',
-          cursor: 'not-allowed',
-          fontWeight: '600',
-          fontSize: '13px',
-        }}
-      >
+      <button type="button" disabled className={classes}>
         Немає в наявності
       </button>
     );
@@ -31,7 +32,7 @@ export default function AddToCartButton({ product }) {
   return (
     <button
       type="button"
-      className="product-card__add"
+      className={classes}
       onClick={() =>
         addItem({
           id: product.id,
@@ -41,19 +42,8 @@ export default function AddToCartButton({ product }) {
           inStock: product.inStock,
         })
       }
-      style={{
-        marginTop: '10px',
-        padding: '8px 16px',
-        backgroundColor: inCart ? '#f59e0b' : '#0d9488',
-        color: '#ffffff',
-        border: 'none',
-        borderRadius: '6px',
-        cursor: 'pointer',
-        fontWeight: '600',
-        fontSize: '13px',
-      }}
     >
-      {inCart ? `У кошику (${inCart.quantity}) — додати ще` : 'До кошика'}
+      {inCart ? `У кошику (${inCart.quantity})` : 'До кошика'}
     </button>
   );
 }

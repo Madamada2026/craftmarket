@@ -1,20 +1,33 @@
 import PropTypes from 'prop-types';
 import ProductCard from '../ProductCard/ProductCard';
-import styles from './ProductList.module.css';
+
+const gridClasses = 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
+
+const emptyClasses = [
+  'mt-8 rounded-card border border-dashed border-line',
+  'bg-white px-6 py-12 text-center',
+].join(' ');
 
 function ProductList({ products, searchQuery }) {
   if (!products || products.length === 0) {
     return (
-      <p className={styles.emptyMessage}>
-        За запитом «{searchQuery}» нічого не знайдено.
-      </p>
+      <div className={emptyClasses}>
+        <p className="font-display text-xl font-semibold text-ink">
+          Нічого не знайдено
+        </p>
+        <p className="mt-2 text-sm text-ink-muted">
+          За запитом «{searchQuery}» нічого не знайдено. Спробуйте змінити запит.
+        </p>
+      </div>
     );
   }
 
   return (
-    <div className={styles.grid}>
+    <div className={gridClasses}>
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <div key={product.id} className="flex">
+          <ProductCard product={product} />
+        </div>
       ))}
     </div>
   );

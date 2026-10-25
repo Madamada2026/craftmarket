@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
+    "@tailwindcss/vite": "^4.3.3",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.89.0",
+    "tailwindcss": "^4.3.3",
     "zod": "^4.6.5"
   },
   "devDependencies": {
