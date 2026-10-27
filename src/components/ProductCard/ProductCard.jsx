@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from "react-router";
 import placeholderSvg from '../../assets/product-placeholder.svg';
 import { Card, Badge, Button } from '../ui';
 import { useCartContext } from '../../context/useCartContext';
@@ -47,7 +48,9 @@ export default function ProductCard({ product, onOpenDetails }) {
       <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
         <Badge tone={badgeTone}>{badgeText}</Badge>
         <h2 className={`line-clamp-2 font-sans text-base font-semibold leading-snug md:text-lg ${inStock ? 'text-ink-900' : 'text-ink-500'}`}>
-          {name}
+          <Link to={`/product/${product.id}`} className="hover:underline focus-visible:underline">
+            {name}
+          </Link>
         </h2>
         <p className={`mt-auto pt-2 text-lg font-bold ${inStock ? 'text-ink-900' : 'text-ink-500'}`}>
           {price.toLocaleString('uk-UA')}{' '}
