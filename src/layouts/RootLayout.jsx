@@ -43,16 +43,14 @@ export default function RootLayout() {
             Кошик ({totalCount})
           </NavLink>
         </nav>
-        {isNavigating && (
-          <div
-            role="progressbar"
-            aria-label="Завантаження сторінки"
-            className="h-1 w-full animate-pulse bg-brand-600"
-          />
-        )}
       </header>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      {/* Оновлений блок головного вмісту з підтримкою плавного згасання при навігації */}
+      <main
+        className={`mx-auto w-full max-w-7xl flex-1 px-4 py-6 transition-opacity duration-300 motion-reduce:transition-none ${
+          isNavigating ? "opacity-50" : "opacity-100"
+        }`}
+      >
         <Outlet />
       </main>
 
