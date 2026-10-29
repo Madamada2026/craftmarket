@@ -8,6 +8,15 @@ export const mockControl = {
 };
 
 export const handlers = [
+  http.get('/api/categories', async () => {
+    await delay(600);
+    return HttpResponse.json([
+      { id: 'ceramics', name: 'Кераміка' },
+      { id: 'textile', name: 'Текстиль' },
+      { id: 'wood', name: 'Дерево' },
+    ]);
+  }),
+
   http.get('/api/products', async () => {
     await delay(mockControl.delayMs);
 

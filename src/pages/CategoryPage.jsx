@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router";
 import { useProducts } from "../hooks/useProducts";
+import { useCategoriesContext } from "../context/useCategoriesContext";
 import ProductList from "../components/ProductList/ProductList";
 import Loader from "../components/Loader";
 import { getErrorMessage } from "../utils/getErrorMessage";
@@ -13,6 +14,10 @@ const CATEGORY_MAP = {
 export default function CategoryPage() {
   const { categorySlug } = useParams();
   const { status, products, error, retry } = useProducts();
+  const { categories } = useCategoriesContext();
+
+  // Перевірка, чи існує така категорія
+  const category = categories.find((c) => c.id === categorySlug);
 
   if (status === 'loading') {
     return <Loader />;
@@ -34,7 +39,7 @@ export default function CategoryPage() {
     );
   }
 
-  const categoryName = CATEGORY_MAP[categorySlug] || categorySlug;
+  const categoryName = category ? category.name : (CATEGORY_MAP[categorySlug] || categorySlug);
   const categoryProducts = products.filter((p) => p.category === categoryName);
 
   return (
