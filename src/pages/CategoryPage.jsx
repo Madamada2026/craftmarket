@@ -1,8 +1,9 @@
 import { Link, useParams } from "react-router";
-import { useProducts } from "../hooks/useProducts.js";
+import { useProducts } from "../hooks/useProducts";
 import ProductList from "../components/ProductList/ProductList";
+import Loader from "../components/Loader";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
-// Мапа відповідності: слаг в URL -> назва категорії в даних
 const CATEGORY_MAP = {
   ceramics: "Кераміка",
   textile: "Текстиль",
@@ -11,21 +12,29 @@ const CATEGORY_MAP = {
 
 export default function CategoryPage() {
   const { categorySlug } = useParams();
-  const { products, isLoading, error, retry } = useProducts();
+  const { status, products, error, retry } = useProducts();
 
-  if (isLoading) return <p role="status">Завантаження каталогу…</p>;
-  if (error) {
+  if (status === 'loading') {
+    return <Loader />;
+  }
+
+  if (status === 'error') {
     return (
-      <div role="alert">
-        <p>Не вдалося завантажити каталог.</p>
-        <button type="button" onClick={retry}>Спробувати знову</button>
+      <div role="alert" className="mx-auto max-w-md rounded-control border border-danger-100 bg-danger-100 p-6 text-center">
+        <h2 className="text-lg font-semibold text-danger-700">Каталог не завантажено</h2>
+        <p className="mt-2 text-danger-700">{getErrorMessage(error)}</p>
+        <button
+          type="button"
+          onClick={retry}
+          className="mt-4 rounded-control bg-danger-600 px-4 py-2 font-medium text-white hover:bg-danger-700"
+        >
+          Спробувати ще раз
+        </button>
       </div>
     );
   }
 
-  // Отримуємо назву категорії з мапи, або використовуємо слаг як є
   const categoryName = CATEGORY_MAP[categorySlug] || categorySlug;
-
   const categoryProducts = products.filter((p) => p.category === categoryName);
 
   return (

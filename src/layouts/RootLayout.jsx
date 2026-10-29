@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { NavLink, Outlet, useNavigation } from "react-router";
 import { useCartContext } from "../context/useCartContext";
+import DevMockPanel from "../components/DevMockPanel"; // <-- ДОДАНО
+import BreakpointBadge from "../components/dev/BreakpointBadge"; // <-- ДОДАНО
 
 const CATEGORY_LINKS = [
   { slug: "ceramics", title: "Кераміка" },
@@ -57,6 +59,12 @@ export default function RootLayout() {
       <footer className="border-t border-ink-300 py-4 text-center text-sm text-ink-500">
         CraftMarket · вітрина виробів ручної роботи
       </footer>
+
+      {/* Індикатор брейкпоінта (тільки в режимі розробки) */}
+      {import.meta.env.DEV && <BreakpointBadge />}
+
+      {/* Панель керування мок-сервером (тільки в режимі розробки) */}
+      {import.meta.env.DEV && <DevMockPanel />}
     </div>
   );
 }

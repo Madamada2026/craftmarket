@@ -1,19 +1,41 @@
-import { http, HttpResponse, delay } from "msw";
-import { products } from "./data/products";
+import { http, HttpResponse, delay } from 'msw';
+import { products } from './data/products';
+
+export const mockControl = {
+  delayMs: 800,
+  failuresLeft: 0,
+  failureMode: 'http', // 'http' | 'network'
+};
 
 export const handlers = [
-  http.get("/api/products", async () => {
-    await delay(600);
+  http.get('/api/products', async () => {
+    await delay(mockControl.delayMs);
+
+    if (mockControl.failuresLeft > 0) {
+      mockControl.failuresLeft -= 1;
+
+      if (mockControl.failureMode === 'network') {
+        return HttpResponse.error();
+      }
+
+      return HttpResponse.json(
+        { message: 'Внутрішня помилка мок-сервера' },
+        { status: 500 },
+      );
+    }
+
     return HttpResponse.json(products);
   }),
 
-  // Обробник для ВСІХ запитів до /api/*
-  http.get("/api/*", async ({ request }) => {
-    console.log("MSW: перехоплено запит до /api/*", request.url);
+  http.get('/api/products/:id', async ({ params }) => {
     await delay(400);
-    return HttpResponse.json(
-      { message: "Товар не знайдено" },
-      { status: 404 }
-    );
+    const product = products.find((item) => String(item.id) === params.id);
+    if (!product) {
+      return HttpResponse.json(
+        { message: 'Товар не знайдено' },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(product);
   }),
 ];

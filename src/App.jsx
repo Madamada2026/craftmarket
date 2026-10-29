@@ -3,6 +3,7 @@ import CartPage from './components/CartPage.jsx';
 import CartBadge from './components/CartBadge.jsx';
 import BreakpointBadge from './components/dev/BreakpointBadge';
 import PageContainer from './components/layout/PageContainer';
+import DevMockPanel from './components/DevMockPanel';
 
 export default function App() {
   return (
@@ -51,7 +52,9 @@ export default function App() {
 
       {/* Індикатор брейкпоінта (тільки в режимі розробки) */}
       {import.meta.env.DEV && <BreakpointBadge />}
+
+      {/* Панель імітації/розробки (тільки в режимі розробки) */}
+      {import.meta.env.DEV && <DevMockPanel />}
     </div>
   );
 }
-
