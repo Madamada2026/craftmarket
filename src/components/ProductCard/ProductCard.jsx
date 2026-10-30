@@ -2,14 +2,22 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router";
 import placeholderSvg from '../../assets/product-placeholder.svg';
 import { Card, Badge, Button } from '../ui';
-import { useCartContext } from '../../context/useCartContext';
+import { useCartStore } from '../../store/cartStore';
 
 const PLACEHOLDER = placeholderSvg;
 
 export default function ProductCard({ product, onOpenDetails }) {
   const { name, price, category, image, inStock, onSale } = product;
-  const { items, addItem } = useCartContext();
-  const inCart = items.find((item) => item.id === product.id);
+  
+  console.count('render: ProductCard');
+
+  // Підписуємось лише на дію addItem (вона ніколи не змінюється)
+  const addItem = useCartStore((state) => state.addItem);
+  
+  // Підписуємось лише на кількість ЦЬОГО товару в кошику
+  const quantityInCart = useCartStore(
+    (state) => state.items.find((item) => item.id === product.id)?.quantity || 0
+  );
 
   // Визначаємо стан товару для бейджа
   let badgeTone = "neutral";
@@ -67,7 +75,7 @@ export default function ProductCard({ product, onOpenDetails }) {
             Деталі
           </Button>
           <Button
-            variant={inCart ? "secondary" : "primary"}
+            variant={quantityInCart > 0 ? "secondary" : "primary"}
             size="sm"
             disabled={!inStock}
             onClick={handleAddToCart}
@@ -75,8 +83,8 @@ export default function ProductCard({ product, onOpenDetails }) {
           >
             {!inStock
               ? "Немає"
-              : inCart
-              ? `У кошику (${inCart.quantity})`
+              : quantityInCart > 0
+              ? `У кошику (${quantityInCart})`
               : "До кошика"}
           </Button>
         </div>

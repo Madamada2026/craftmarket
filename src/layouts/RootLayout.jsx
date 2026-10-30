@@ -1,8 +1,8 @@
-import { useContext } from "react";
 import { NavLink, Outlet, useNavigation } from "react-router";
-import { useCartContext } from "../context/useCartContext";
-import DevMockPanel from "../components/DevMockPanel"; // <-- ДОДАНО
-import BreakpointBadge from "../components/dev/BreakpointBadge"; // <-- ДОДАНО
+import { useCartStore } from "../store/cartStore";
+import { selectTotalCount } from "../store/cartSelectors";
+import DevMockPanel from "../components/DevMockPanel";
+import BreakpointBadge from "../components/dev/BreakpointBadge";
 
 const CATEGORY_LINKS = [
   { slug: "ceramics", title: "Кераміка" },
@@ -19,7 +19,7 @@ const navLinkClass = ({ isActive }) => {
 };
 
 export default function RootLayout() {
-  const { totalCount } = useCartContext();
+  const totalCount = useCartStore(selectTotalCount); // <-- ЗМІНЕНО
   const navigation = useNavigation();
   const isNavigating = navigation.state === "loading";
 
@@ -47,7 +47,6 @@ export default function RootLayout() {
         </nav>
       </header>
 
-      {/* Оновлений блок головного вмісту з підтримкою плавного згасання при навігації */}
       <main
         className={`mx-auto w-full max-w-7xl flex-1 px-4 py-6 transition-opacity duration-300 motion-reduce:transition-none ${
           isNavigating ? "opacity-50" : "opacity-100"
@@ -60,10 +59,7 @@ export default function RootLayout() {
         CraftMarket · вітрина виробів ручної роботи
       </footer>
 
-      {/* Індикатор брейкпоінта (тільки в режимі розробки) */}
       {import.meta.env.DEV && <BreakpointBadge />}
-
-      {/* Панель керування мок-сервером (тільки в режимі розробки) */}
       {import.meta.env.DEV && <DevMockPanel />}
     </div>
   );

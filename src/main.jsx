@@ -2,7 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router/dom";
 import { router } from "./router.jsx";
-import { CartProvider } from "./context/CartProvider.jsx";
 import { CategoriesProvider } from "./context/CategoriesProvider";
 import "./index.css";
 
@@ -17,11 +16,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   createRoot(document.getElementById("root")).render(
     <StrictMode>
-      <CartProvider>
-        <CategoriesProvider>
-          <RouterProvider router={router} />
-        </CategoriesProvider>
-      </CartProvider>
+      <CategoriesProvider>
+        <RouterProvider router={router} />
+      </CategoriesProvider>
     </StrictMode>
   );
 });
