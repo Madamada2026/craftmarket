@@ -39,4 +39,36 @@ describe('useCartStore', () => {
     expect(selectTotalCount(state)).toBe(4);
     expect(selectTotalPrice(state)).toBe(450 + 180 * 3);
   });
+
+  it('removeItem видаляє позицію з кошика', () => {
+    const { addItem, removeItem } = useCartStore.getState();
+    addItem(vase);
+    removeItem('p1');
+    expect(useCartStore.getState().items).toHaveLength(0);
+  });
+
+  it('clearCart очищає весь кошик', () => {
+    const { addItem, clearCart } = useCartStore.getState();
+    addItem(vase);
+    addItem(mug);
+    clearCart();
+    expect(useCartStore.getState().items).toHaveLength(0);
+  });
+
+  it('addItem створює нове посилання на items (незмінність)', () => {
+    const { addItem } = useCartStore.getState();
+    const itemsBefore = useCartStore.getState().items;
+    addItem(vase);
+    const itemsAfter = useCartStore.getState().items;
+    expect(itemsBefore).not.toBe(itemsAfter);
+  });
+
+  it('updateQuantity створює нове посилання на items', () => {
+    const { addItem, updateQuantity } = useCartStore.getState();
+    addItem(vase);
+    const itemsBefore = useCartStore.getState().items;
+    updateQuantity('p1', 5);
+    const itemsAfter = useCartStore.getState().items;
+    expect(itemsBefore).not.toBe(itemsAfter);
+  });
 });
