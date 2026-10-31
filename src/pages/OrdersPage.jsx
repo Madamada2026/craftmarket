@@ -1,4 +1,4 @@
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth'; // <-- ЗМІНЕНО
 
 const ORDERS = [
   { id: 'A-1042', date: '2026-09-28', total: 1240, status: 'Доставлено' },
