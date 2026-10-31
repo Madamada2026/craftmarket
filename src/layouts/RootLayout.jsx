@@ -1,6 +1,8 @@
 import { NavLink, Outlet, useNavigation } from "react-router";
 import { useCartStore } from "../store/cartStore";
 import { selectTotalCount } from "../store/cartSelectors";
+// 1. Додаємо імпорт хука авторизації
+import { useAuth } from "../context/AuthContext";
 import DevMockPanel from "../components/DevMockPanel";
 import BreakpointBadge from "../components/dev/BreakpointBadge";
 
@@ -19,9 +21,11 @@ const navLinkClass = ({ isActive }) => {
 };
 
 export default function RootLayout() {
-  const totalCount = useCartStore(selectTotalCount); // <-- ЗМІНЕНО
+  const totalCount = useCartStore(selectTotalCount);
   const navigation = useNavigation();
   const isNavigating = navigation.state === "loading";
+  // 2. Деструктуризуємо стан та функцію виходу з контексту
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink-900">
@@ -44,6 +48,26 @@ export default function RootLayout() {
           >
             Кошик ({totalCount})
           </NavLink>
+
+          {/* 3. Умовний рендеринг кнопок залежно від авторизації */}
+          {isAuthenticated ? (
+            <>
+              <NavLink to="/orders" className={navLinkClass}>
+                Мої замовлення
+              </NavLink>
+              <button 
+                type="button" 
+                onClick={logout} 
+                className="rounded-control px-3 py-2 text-sm font-medium text-ink-600 underline hover:bg-ink-100 transition-colors"
+              >
+                Вийти
+              </button>
+            </>
+          ) : (
+            <NavLink to="/login" className={navLinkClass}>
+              Увійти
+            </NavLink>
+          )}
         </nav>
       </header>
 

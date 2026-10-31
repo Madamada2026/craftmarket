@@ -1,5 +1,7 @@
 import { http, HttpResponse, delay } from 'msw';
 import { products } from './data/products';
+// 1. Додаємо імпорт authHandlers
+import { authHandlers } from './authHandlers';
 
 export const mockControl = {
   delayMs: 800,
@@ -47,4 +49,7 @@ export const handlers = [
     }
     return HttpResponse.json(product);
   }),
+
+  // 2. Розгортаємо масив authHandlers за допомогою spread-оператора (...)
+  ...authHandlers,
 ];
